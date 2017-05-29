@@ -1,0 +1,45 @@
+# Setup dnsmasq to use our default setup of <user>.localdev instead of .dev
+dnsmasq::tld: "%{::boxen_user}.localdev"
+
+mysql::config::port: 3306
+mysql::config::socket: "%{::boxen_home}/data/mysql/socket"
+mysql::config::maxconnections: 4000
+mysql::config::openfileslimit: 4000
+mysql::config::innodbflushlogattrxcommit: 2
+
+memcached::port: '11211'
+
+ruby::global::version: 2.2.2
+ruby::rbenv::ensure: v0.4.0
+
+nodejs::build::ensure: v2.3.5
+
+# rbenv plugins
+"ruby::rbenv::plugins":
+  "rbenv-gem-rehash":
+    "ensure": "v1.0.0"
+    "source": "sstephenson/rbenv-gem-rehash"
+
+php::config::secure_warning: false
+php::config::configure_params:
+    "5.6.26": "--without-pear"
+    "7.0.11": "--without-pear"
+    "7.1.0RC3": "--without-pear"
+
+# default email address
+namesco::user::email: "%{::boxen_user}@names.co.uk"
+
+namesco::environment::apache: true
+namesco::environment::php: true
+namesco::environment::php7: false
+namesco::environment::php71: false
+namesco::environment::sendmail: true
+
+# Whether or not Docker is used
+namesco::environment::docker: false
+namesco::environment::docker::bridge: "en3: USB Ethernet"
+namesco::environment::docker::sharedlibraries: false
+
+projects::volumessites: false
+projects::virtualbox: true
+projects::rabbitmq: true

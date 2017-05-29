@@ -1,0 +1,217 @@
+---
+
+namesco::environment::apache: false
+namesco::environment::php: true
+namesco::environment::sendmail: false
+namesco::environment::docker: false
+
+projects:
+  data:
+    - /Volumes/Sites/__data__/central/tal
+    - /Volumes/Sites/__data__/central/tests/zendCache
+    - /Volumes/Sites/__data__/cp3/captcha
+    - /Volumes/Sites/__data__/cp3/csrf-token
+    - /Volumes/Sites/__data__/cp3/dadaTrackerLog
+    - /Volumes/Sites/__data__/cp3/firstpage
+    - /Volumes/Sites/__data__/cp3/kickstart-logos
+    - /Volumes/Sites/__data__/cp3/logos
+    - /Volumes/Sites/__data__/cp3/windowsSiteReports
+    - /Volumes/Sites/__data__/cp4
+    - /Volumes/Sites/__data__/cronjobs/cronfiles/support/attachements
+    - /Volumes/Sites/__data__/mail/mholloway
+    - /Volumes/Sites/__data__/ppc/log
+    - /Volumes/Sites/__data__/ppc/search
+    - /Volumes/Sites/__data__/ppc/tmp
+    - /Volumes/Sites/__data__/webgrind
+    - /Volumes/Sites/__data__/ws/cmsCache
+    - /Volumes/Sites/__data__/ws/images
+    - /Volumes/Sites/__data__/ws/ordersLog
+    - /Volumes/Sites/__data__/ws/search
+    - /Volumes/Sites/__data__/ws/tal
+    - /Volumes/Sites/__data__/ws2/namesco/sass
+    - /Volumes/Sites/__data__/ws2/reg365/sass
+    - /Volumes/Sites/__data__/xdebug
+  containerDirectories:
+    - /Volumes/Sites/cobrands/default
+    - /Volumes/Sites/dump
+    - /Volumes/Sites/reg365
+    - /Volumes/Sites/simplyhosting
+    - /Volumes/Sites/tools/ws
+  git:
+    -
+      dest: /Volumes/Sites/github/ZTal
+      repo: "https://github.com/namesco/ZTal.git"
+    -
+      dest: /Volumes/Sites/tools/ws/web
+      repo: "git@bitbucket.org:flyingbuddha/tools-ws.git"
+    -
+      dest: /Volumes/Sites/tools/hikebot
+      repo: "git@bitbucket.org:flyingbuddha/hikebot.git"
+    -
+      dest: /Volumes/Sites/tools/apaxy
+      repo: https://github.com/AdamWhitcroft/Apaxy.git
+    -
+      dest: /Volumes/Sites/tools/xhprof
+      repo: https://github.com/phacility/xhprof.git
+    -
+      dest: /Volumes/Sites/tools/xhprof.io
+      repo: https://github.com/gajus/xhprof.io
+  links:
+    -
+      dest: /Volumes/Sites/cobrands/default/cp3
+      src: /Volumes/Sites/names/cp3
+    -
+      dest: /Volumes/Sites/cobrands/default/kb
+      src: /Volumes/Sites/names/kb
+    -
+      dest: /Volumes/Sites/cobrands/default/webmail3
+      src: /Volumes/Sites/names/webmail3
+    -
+      dest: /Volumes/Sites/cobrands/default/webmail4
+      src: /Volumes/Sites/names/webmail4
+    -
+      dest: /Volumes/Sites/cobrands/default/ws
+      src: /Volumes/Sites/names/ws
+    -
+      dest: /Volumes/Sites/cobrands/default/ws2
+      src: /Volumes/Sites/names/ws2
+    -
+      dest: /Volumes/Sites/cobrands/msg
+      src: /Volumes/Sites/cobrands/default
+    -
+      dest: /Volumes/Sites/reg365/cp3
+      src: /Volumes/Sites/names/cp3
+    -
+      dest: /Volumes/Sites/reg365/kb
+      src: /Volumes/Sites/names/kb
+    -
+      dest: /Volumes/Sites/reg365/webmail3
+      src: /Volumes/Sites/names/webmail3
+    -
+      dest: /Volumes/Sites/reg365/webmail4
+      src: /Volumes/Sites/names/webmail4
+    -
+      dest: /Volumes/Sites/reg365/ws
+      src: /Volumes/Sites/names/ws
+    -
+      dest: /Volumes/Sites/reg365/ws2
+      src: /Volumes/Sites/names/ws2
+    -
+      dest: /Volumes/Sites/ss/ws
+      src: /Volumes/Sites/names/ws
+    -
+      dest: /Volumes/Sites/simplyhosting/cp3
+      src: /Volumes/Sites/names/cp3
+  subversion:
+    -
+      dest: /Volumes/Sites/cronjobs/new
+      repo: "http://svn.server.dev/svn/cronjobs/cronjobs/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/cronjobs/new/cronjobs/names.co.uk/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/cronjobs/new/names.co.uk/application.local.xml
+          version: false
+    -
+      dest: /Volumes/Sites/cronjobs/old
+      repo: "http://svn.server.dev/svn/cronjobs/old-cronjobs/trunk"
+    -
+      dest: /Volumes/Sites/names/api
+      repo: "http://svn.server.dev/svn/restApis/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/api/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/api/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/central
+      repo: "http://svn.server.dev/svn/central/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/central/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/central/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/cp3
+      repo: "http://svn.server.dev/svn/controlpanel/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/cp3/app/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/cp3/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/cp4
+      repo: "http://svn.server.dev/svn/controlPanel4/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/cp4/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/cp4/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/kb
+      repo: "http://svn.server.dev/svn/knowledgebase/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/kb/app/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/cp4/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/kblite
+      repo: "http://svn.server.dev/svn/kbLite/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/kblite/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/kblite/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/ppc
+      repo: "http://svn.server.dev/svn/ppc3/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/ppc/app/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/ppc/application.local.xml
+          version: false
+    -
+      dest: /Volumes/Sites/names/webmail3
+      repo: "http://svn.server.dev/svn/webmail/trunk"
+    -
+      dest: /Volumes/Sites/names/webmail4
+      repo: "http://svn.server.dev/svn/roundcube/releases/4.4.5"
+    -
+      dest: /Volumes/Sites/names/ws
+      repo: "http://svn.server.dev/svn/website/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/ws/app/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/ws/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/names/ws2
+      repo: "http://svn.server.dev/svn/website2/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/names/ws2/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/ws2/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/ss/cp4
+      repo: "http://svn.server.dev/svn/controlPanel4/simplyservers/releases/RB-2.0"
+      configs:
+        -
+          dest: /Volumes/Sites/ss/cp4/application/configs/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/cp4-ss/application.local.xml
+          version: true
+    -
+      dest: /Volumes/Sites/scripts
+      repo: "http://svn.server.dev/svn/scripts/trunk"
+    -
+      dest: /Volumes/Sites/simply/simplyapi
+      repo: "http://svn.server.dev/svn/simplyapi/trunk"
+      configs:
+        -
+          dest: /Volumes/Sites/simply/simplyapi/app/application.local.xml
+          src: /Users/mholloway/namesco-configs/projects/simplyapi/application.local.xml
+          version: false
+    -
+      dest: /Volumes/Sites/couk/cheapvps
+      repo: "http://svn.server.dev/svn/cheapvps/trunk"
+

@@ -1,0 +1,5 @@
+projects::volumessites: true
+namesco::environment::docker: false
+namesco::environment::docker::bridge: "en2: USB Ethernet"
+namesco::environment::php7: true
+namesco::environment::php71: true

@@ -1,0 +1,2 @@
+# Move mysql up by one port so I know when things are trying to use it when they shouldn't
+mysql::config::port: 3307

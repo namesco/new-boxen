@@ -1,0 +1,6 @@
+projects::volumessites: true
+mysql::config::maxconnections: 6000
+mysql::config::openfileslimit: 6000
+namesco::environment::docker: false
+namesco::environment::docker::bridge: "en2: Display Ethernet"
+namesco::environment::docker::sharedlibraries: false

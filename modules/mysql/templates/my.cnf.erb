@@ -1,0 +1,14 @@
+[client]
+port=<%= scope.lookupvar "mysql::config::port" %>
+socket=<%= scope.lookupvar "mysql::config::socket" %>
+
+[mysqld]
+datadir=<%= scope.lookupvar "mysql::config::datadir" %>
+log-error=<%= scope.lookupvar "mysql::config::logerror" %>
+port=<%= scope.lookupvar "mysql::config::port" %>
+socket=<%= scope.lookupvar "mysql::config::socket" %>
+max_connections=<%= scope.lookupvar "mysql::config::maxconnections" %>
+open_files_limit=<%= scope.lookupvar "mysql::config::openfileslimit" %>
+max_allowed_packet=1073741824
+innodb_flush_log_at_trx_commit=<%= scope.lookupvar "mysql::config::innodbflushlogattrxcommit" %>
+pid-file=<%= scope.lookupvar "mysql::config::pidfile" %>

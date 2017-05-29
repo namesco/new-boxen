@@ -1,0 +1,6 @@
+---
+script: "./script/cibuild"
+gemfile: "this/does/not/exist"
+sudo: false
+rvm:
+  - "2.2.3"

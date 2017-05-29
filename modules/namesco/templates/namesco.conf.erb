@@ -1,0 +1,32 @@
+LoadModule vhost_alias_module libexec/apache2/mod_vhost_alias.so
+LoadModule rewrite_module libexec/apache2/mod_rewrite.so
+LoadModule fcgid_module <%= scope.lookupvar "boxen::config::homebrewdir" %>/Cellar/mod_fcgid/2.3.9/libexec/mod_fcgid.so
+
+AddHandler fcgid-script .php
+FCGIWrapper '<%= scope.lookupvar "::boxen_home" %>/phpenv/versions/<%= scope.lookupvar "::namesco::environment::php::php_version" %>/bin/php-cgi -d xdebug.scream=Off -d error_reporting=30711 short_open_tag=1' .php
+
+AddHandler fcgid-script .php5
+FCGIWrapper '<%= scope.lookupvar "::boxen_home" %>/phpenv/versions/<%= scope.lookupvar "::namesco::environment::php::php_version" %>/bin/php-cgi -d xdebug.scream=Off -d error_reporting=30711 short_open_tag=1' .php5
+
+FcgidMaxRequestsPerProcess 200
+FcgidMaxRequestLen 10240000
+FcgidIOTimeout 1800
+SetEnv APPLICATION_ENV "development"
+
+DirectoryIndex index.html index.php index.php5
+
+<VirtualHost *:80>
+        VirtualDocumentRoot /Users/%-2/Sites/%-3/%-4/%-5/web
+        <Directory /Users/*/Sites>
+                Options FollowSymLinks ExecCGI
+                AllowOverride All
+                Order allow,deny
+                Allow from all
+		# Apache 2.4
+		<IfModule mod_authz_core.c>
+    			Require all granted
+		</IfModule>
+        </Directory>
+        RewriteEngine On
+</VirtualHost>
+AccessFileName .htaccess-dev

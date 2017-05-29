@@ -1,0 +1,117 @@
+#
+# This is the Apache server configuration file providing SSL support.
+# It contains the configuration directives to instruct the server how to
+# serve pages over an https connection. For detailed information about these
+# directives see <URL:http://httpd.apache.org/docs/2.4/mod/mod_ssl.html>
+#
+# Do NOT simply read the instructions in here without understanding
+# what they do.  They're here only as hints or reminders.  If you are unsure
+# consult the online docs. You have been warned.
+#
+# Required modules: mod_log_config, mod_setenvif, mod_ssl,
+#          socache_shmcb_module (for default value of SSLSessionCache)
+LoadModule ssl_module libexec/apache2/mod_ssl.so
+
+#
+#SSLRandomSeed startup file:/dev/random  512
+#SSLRandomSeed startup file:/dev/urandom 512
+#SSLRandomSeed connect file:/dev/random  512
+#SSLRandomSeed connect file:/dev/urandom 512
+
+SetEnv APPLICATION_ENV "development"
+SetEnv NCO_CMS_HOST website2.names.<%= scope.lookupvar "::boxen_user" %>.localdev
+
+#
+# When we also provide SSL we have to listen to the
+# standard HTTP port (see above) and to the HTTPS port
+#
+Listen 443
+
+##
+##  SSL Global Context
+##
+##  All SSL configuration in this context applies both to
+##  the main server and all SSL-enabled virtual hosts.
+##
+
+#   SSL Cipher Suite:
+#   List the ciphers that the client is permitted to negotiate.
+#   See the mod_ssl documentation for a complete list.
+#SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+
+#   Speed-optimized SSL Cipher configuration:
+#   If speed is your main concern (on busy HTTPS servers e.g.),
+#   you might want to force clients to specific, performance
+#   optimized ciphers. In this case, prepend those ciphers
+#   to the SSLCipherSuite list, and enable SSLHonorCipherOrder.
+#   Caveat: by giving precedence to RC4-SHA and AES128-SHA
+#   (as in the example below), most connections will no longer
+#   have perfect forward secrecy - if the server's key is
+#   compromised, captures of past or future traffic must be
+#   considered compromised, too.
+#SSLCipherSuite RC4-SHA:AES128-SHA:HIGH:MEDIUM:!aNULL:!MD5
+#SSLHonorCipherOrder on
+
+#   Pass Phrase Dialog:
+#   Configure the pass phrase gathering process.
+#   The filtering dialog program (`builtin' is an internal
+#   terminal dialog) has to provide the pass phrase on stdout.
+#SSLPassPhraseDialog  builtin
+
+#   Inter-Process Session Cache:
+#   Configure the SSL Session Cache: First the mechanism
+#   to use and second the expiring timeout (in seconds).
+#SSLSessionCache         "dbm:/private/var/run/ssl_scache"
+#SSLSessionCache        "shmcb:/private/var/run/ssl_scache(512000)"
+#SSLSessionCacheTimeout  300
+
+##
+## SSL Virtual Host Context
+##
+
+<VirtualHost _default_:443>
+    # project.brand.user.localdev
+    VirtualDocumentRoot /Users/%-2/Sites/%-3/%-4/%-5/web
+
+    ServerName default
+    ServerAlias *
+
+	#   SSL Engine Switch:
+	#   Enable/Disable SSL for this virtual host.
+	SSLEngine on
+
+	#   Server Certificate:
+	SSLCertificateFile "/etc/apache2/server.crt"
+
+	#   Server Private Key:
+	SSLCertificateKeyFile "/etc/apache2/server.key"
+
+	#   Client Authentication (Type):
+	#   Client certificate verification type and depth.  Types are
+	#   none, optional, require and optional_no_ca.  Depth is a
+	#   number which specifies how deeply to verify the certificate
+	#   issuer chain before deciding the certificate is not valid.
+	#SSLVerifyClient none #require
+	#SSLVerifyDepth  10
+
+	<FilesMatch "\.(cgi|shtml|phtml|php)$">
+    	SSLOptions +StdEnvVars
+	</FilesMatch>
+	RewriteEngine On
+    <Directory /Users/*/Sites>
+        Options FollowSymLinks ExecCGI
+        SSLOptions +StdEnvVars
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+        # Apache 2.4
+        <IfModule mod_authz_core.c>
+    	    Require all granted
+    	</IfModule>
+	</Directory>
+
+	#   compact non-error SSL logfile on a virtual host basis.
+	CustomLog "/private/var/log/apache2/ssl_request_log" \
+          "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+
+</VirtualHost>

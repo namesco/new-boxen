@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# Needed as of boot2docker 1.8.1
+sleep 5
+
+# run the docker containers that should be always available
+# We don't use --restart=always because of an apparent race condition on the docker.sock file
+docker stop proxy
+docker rm -f proxy
+docker pull docker.server.dev:5000/library/proxy
+docker run -d --name proxy -p 80:80 -v /var/run/docker.sock:/tmp/docker.sock -v /Users:/Users -v /Volumes:/Volumes docker.server.dev:5000/library/proxy
+
+docker stop memcache
+docker rm -f memcache
+docker pull rohan/memcached-mini:latest
+docker run -d --name memcache rohan/memcached-mini

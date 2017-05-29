@@ -1,0 +1,36 @@
+cd src/our-boxen
+
+git brach *see what branch you’re in  may need to make your own branch)
+
+
+cd modules/people/manifests
+
+copy someones .pp file  rename it  yourgitusername.pp
+
+edit
+
+class people::contradev {
+
+
+        package { [
+                'chromium'
+        ]: provider => 'brewcask', install_options => ['--appdir=/Applications'] }
+
+}
+
+thats the bare min you need for adding an app.  Change the people:: contrived to your git username
+
+Go to brew room.io  find app. remember name
+
+replace “chromium” (or add) name in package deff above
+
+save
+
+brew
+
+<installs it>
+
+commit your .pp file
+
+done
+

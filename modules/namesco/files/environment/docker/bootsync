@@ -1,0 +1,34 @@
+#!/bin/sh
+set -e
+
+# Assign a static ip for the vm so we can setup dns for it on the host
+sleep 1
+kill `more /var/run/udhcpc.eth1.pid`
+ifconfig eth1 192.168.99.102 netmask 255.255.255.0 broadcast 192.168.99.255 up
+
+# Function to mount vbox shares - copied from the main Boot2Docker startup scripts
+if modprobe vboxguest &> /dev/null && modprobe vboxsf &> /dev/null; then
+	mountOptions='defaults'
+	if grep -q '^docker:' /etc/passwd; then
+		mountOptions="${mountOptions},uid=$(id -u docker),gid=$(id -g docker)"
+	fi
+	# try mounting "$name" (which defaults to "$dir") at "$dir",
+	# but quietly clean up empty directories if it fails
+	try_mount_share() {
+		dir="$1"
+		name="${2:-$dir}"
+		mkdir -p "$dir" 2>/dev/null
+		if ! mount -t vboxsf -o "$mountOptions" "$name" "$dir" 2>/dev/null; then
+			rmdir "$dir" 2>/dev/null || true
+			while [ "$(dirname "$dir")" != "$dir" ]; do
+				dir="$(dirname "$dir")"
+				rmdir "$dir" 2>/dev/null || break
+			done;
+			return 1
+		fi
+		return 0
+	}
+
+# Mount additional vbox shares (/Users, if available, is setup in the default config)
+	try_mount_share /Volumes/Sites 'Sites'
+fi

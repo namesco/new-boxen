@@ -1,0 +1,7 @@
+#!/bin/bash
+
+formail -R cc X-original-cc \
+	-R to X-original-to \
+	-R bcc X-original-bcc \
+	-f -A"To: <%= scope.lookupvar "email" %>" \
+	| /usr/sbin/sendmail_real -t -i $@
